@@ -135,7 +135,7 @@ results_xlsx.serialize(ofile)
 R.eval <<EOF
 library(VennDiagram)
 library(gridExtra)
-g = draw.pairwise.venn(area1 = #{total_1}, area2 = #{total_2}, cross.area = #{total_12}, category = c('Gamma', 'Proton'), lty = 'blank', fill = c('skyblue', 'mediumorchid'), fontfamily = 'sans', cex = 4.5, cat.cex = 1, cat.fontfamily = 'sans', cat.pos = c(3,35), cat.dist = c(0.02, 0.03))
+g = draw.pairwise.venn(area1 = #{total_1}, area2 = #{total_2}, cross.area = #{total_12}, category = c('Gamma', 'Proton'), lty = 'blank', fill = c('blue', 'green'), fontfamily = 'sans', cex = 4.5, cat.cex = 1, cat.fontfamily = 'sans', cat.pos = c(3,35), cat.dist = c(0.02, 0.03), cat.col = c('blue','green'), label.col = c('darkblue','black','darkgreen'))
 pdf('#{ofile}.venn.pdf')
 grid.arrange(gTree(children=g), top='genes with FDR<#{cutoff}')
 dev.off()

@@ -47,6 +47,7 @@ library(dplyr)
 library(tidyr)
 library(tibble)
 
+
 # radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", sep="\t", header = TRUE)
 radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_ratios.txt", sep="\t", header = TRUE)
 
@@ -58,12 +59,14 @@ mutate(Dose=gsub("^(Proton|Gamma)([[:digit:]]+)\\.S[[:digit:]]+.*","\\2",Sample_
 
 ggplot(aes(x=Ratio)) + 
   geom_histogram(binwidth=0.001, aes(fill=Radiation_type), position = "dodge") +
-  geom_freqpoly(aes(color=Radiation_type)) + 
+  geom_freqpoly(aes(color=Radiation_type, size=10)) + 
   scale_x_log10() +
-  facet_grid(.~Dose)
+  facet_wrap(~Dose, ncol = 3) +
+  theme(text = element_text(size=40)) + 
+  labs(y="Gene expression", x="Expression ratio")
 
-# ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios_comparison_1000bins_wlog.tiff", height = 15, width = 100, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_ratios_comparison_1000bins_wlog.tiff", height = 15, width = 100, units ="cm")
+# ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios_comparison_1000bins_wlog.tiff", height = 60, width = 60, units ="cm")
+ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_ratios_comparison_1000bins_wlog.tiff", height = 60, width = 60, units ="cm")
 
 
 
