@@ -1,4 +1,5 @@
 .DS_Store
+.Rhistory
 .ruby-version
 README.txt
 RT-PCR
