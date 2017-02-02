@@ -3,7 +3,7 @@
 
 # ruby scripts/calculate_expression_ratios_with_cutoff.rb results/venn_diagrams/all_PCR_proton_0.1.txt results/venn_diagrams/all_PCR_gamma_0.1.txt results/expression_ratios_histograms/all_PCR_0.1_ratios.txt
 
-# Calculate the expression ratios for every dose (n=2..10), for every gene with FDR<0.1, for each condition(radiation). expression at dose n/expression at baseline. Create 9 histograms of ratios over all genes per radiation.
+# Calculate the expression ratios for every dose (n=2..10), for every gene with FDR<0.1, for each condition(radiation). expression at dose n/expression at baseline. Prepare the file to create 9 histograms of ratios over all genes per radiation.
 
 require 'rubygems'
 require 'csv'

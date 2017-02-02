@@ -1,8 +1,8 @@
 # USAGE:
-# ruby scripts/double_venn.rb trend_data/Gene_Sense_Gamma_trend.txt trend_data/Gene_Sense_Proton_trend.txt results/venn_diagrams/common_genes_from_sense_trend_analysis_0.1.xlsx 0.1
-# ruby scripts/double_venn.rb trend_data/Gene_Antisense_Gamma_trend.txt trend_data/Gene_Antisense_Proton_trend.txt results/venn_diagrams/common_genes_from_antisense_trend_analysis_0.1.xlsx 0.1
+# ruby scripts/double_venn.rb trend_data/Gene_Sense_Gamma_trend.txt trend_data/Gene_Sense_Proton_trend.txt results/venn_diagrams/common_genes_from_sense_trend_analysis_0.1.xlsx 0.1 "Sense"
+# ruby scripts/double_venn.rb trend_data/Gene_Antisense_Gamma_trend.txt trend_data/Gene_Antisense_Proton_trend.txt results/venn_diagrams/common_genes_from_antisense_trend_analysis_0.1.xlsx 0.1 "AntiSense"
 
-# ruby scripts/double_venn.rb trend_data/RT-PCR_Gamma_trending.txt trend_data/RT-PCR_Proton_trending.txt results/venn_diagrams/common_genes_from_RT-PCR_trend_analysis_0.1.xlsx 0.1
+# ruby scripts/double_venn.rb trend_data/RT-PCR_Gamma_trending.txt trend_data/RT-PCR_Proton_trending.txt results/venn_diagrams/common_genes_from_RT-PCR_trend_analysis_0.1.xlsx 0.1 "PCR"
 
 # Create genes lists with the common genes between 2 DE comparisons.
 
@@ -11,12 +11,12 @@ require 'csv'
 require 'axlsx'
 require "rinruby" 
 
-strand = "Sense"
 # strand = "Antisense"
 ifile1 = ARGV[0]
 ifile2 = ARGV[1]
 ofile = ARGV[2]
 cutoff = ARGV[3]
+strand = ARGV[4]
 
 # read the list
 counts12_list = Hash.new { |h,k| h[k] = [] }
@@ -27,7 +27,7 @@ CSV.foreach(ifile1, {:col_sep => "\t"}) do |row|
 	if row[0] == "ID"
 		header = row
 	end
-	if row[0] != "ID" && row[0] != ""
+	if (row[0] != "ID") && (row[0] != "") #&& (!row[0].include? "RNA-Seq") #for PCR
 		if row[1].to_f <= cutoff.to_f
 			genes_cond1[row[0]] << 1
 			genes_cond1_list[row[0]] = row
@@ -38,7 +38,7 @@ end
 genes_cond2 = Hash.new { |h,k| h[k] = [] }
 genes_cond2_list = Hash.new { |h,k| h[k] = [] }
 CSV.foreach(ifile2, {:col_sep => "\t"}) do |row|
-	if row[0] != "ID" && row[0] != "" 
+	if (row[0] != "ID") && (row[0] != "") #&& (!row[0].include? "RNA-Seq") #for PCR
 		if row[1].to_f <= cutoff.to_f
 			genes_cond2[row[0]] << 1
 			genes_cond2_list[row[0]] = row

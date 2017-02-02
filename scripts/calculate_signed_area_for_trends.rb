@@ -2,7 +2,7 @@
 # ruby scripts/calculate_signed_area_for_trends.rb expression_data/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted.txt results/signed_areas/FINAL_master_list_of_gene_counts_MIN.sense.radiation_signed_areas.txt 
 # ruby scripts/calculate_signed_area_for_trends.rb expression_data/FINAL_master_list_of_gene_counts_MIN.antisense.radiation_renamed.sorted.txt results/signed_areas/FINAL_master_list_of_gene_counts_MIN.antisense.radiation_signed_areas.txt 
 
-# ruby scripts/calculate_signed_area_for_trends.rb trend_data/RT-PCR_gene_expressions.txt results/signed_areas/RT-PCR_gene_expressions_signed_areas.txt 
+# ruby scripts/calculate_signed_area_for_trends.rb trend_data/RT-PCR_gene_expressions_edited.txt results/signed_areas/RT-PCR_gene_expressions_signed_areas.txt 
 
 # Calculate the signed area for every gene, for the 2 conditions(radiations).
 
@@ -21,7 +21,7 @@ CSV.foreach(ifile, {:col_sep => "\t"}) do |row|
 	if row[0].casecmp("id") == 0
 		header = row
 	end
-	if row[0] != "" && row[0].casecmp("id") != 0
+	if (row[0] != "") && (row[0].casecmp("id") != 0) && (!row[0].include? "RNA-Seq") #for PCR
 		sign_changed = nil
 		sign = nil
 		puts row[0]

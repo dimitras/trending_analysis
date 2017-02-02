@@ -9,14 +9,15 @@ require 'csv'
 idir = ARGV[0]
 ofile1 = ARGV[1]
 ofile2 = ARGV[2]
-
+symbols_to_ids = {"Aen" => "ENSMUSG00000030609", "Cdkn1a" => "ENSMUSG00000023067", "Ephx1" => "ENSMUSG00000038776", "Slc19a2" => "ENSMUSG00000040918"}
 
 all_proton = Hash.new { |h,k| h[k] = [] }
 all_gamma = Hash.new { |h,k| h[k] = [] }
 
 Dir.foreach(idir) do |ifile|
-	next if ifile == "." or ifile == ".."
-	
+	# next if ifile == "." or ifile == ".."
+	next if !ifile.include? ".txt"
+
 	genesymbol = ifile.split("_")[0]
 	tissue = ifile.split("_")[1].split(".")[0]
 
@@ -31,8 +32,8 @@ Dir.foreach(idir) do |ifile|
 
 	transposed_table1 = raw_table1.transpose
 	transposed_table2 = raw_table2.transpose
-	all_proton[genesymbol+"_"+tissue] = transposed_table1.flatten!(1)
-	all_gamma[genesymbol+"_"+tissue] = transposed_table2.flatten!(1)
+	all_proton[symbols_to_ids[genesymbol]+"_"+tissue] = transposed_table1.flatten!(1)
+	all_gamma[symbols_to_ids[genesymbol]+"_"+tissue] = transposed_table2.flatten!(1)
 end
 
 # output

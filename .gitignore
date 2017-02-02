@@ -2,13 +2,14 @@
 .Rhistory
 .ruby-version
 README.txt
+IPA
 RT-PCR
 exon-intron-junction_normalization_factors.txt
 expression_data
 gene_normalization_factors.txt
 radiation.cor_dist.png
 radiation.eucl_dist.png
-radiation_DE_results.xlsx
+radiation_trend_analysis.xlsx
 radiation_stats.xlsx
 results
 trend_data
