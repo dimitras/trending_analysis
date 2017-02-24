@@ -9,7 +9,7 @@ require 'csv'
 idir = ARGV[0]
 ofile1 = ARGV[1]
 ofile2 = ARGV[2]
-symbols_to_ids = {"Aen" => "ENSMUSG00000030609", "Cdkn1a" => "ENSMUSG00000023067", "Ephx1" => "ENSMUSG00000038776", "Slc19a2" => "ENSMUSG00000040918"}
+symbols_to_ids = {"Aen" => "ENSMUSG00000030609", "Cdkn1a" => "ENSMUSG00000023067", "Ephx1" => "ENSMUSG00000038776", "Slc19a2" => "ENSMUSG00000040918", "Acap2" => "ENSMUSG00000049076"}
 
 all_proton = Hash.new { |h,k| h[k] = [] }
 all_gamma = Hash.new { |h,k| h[k] = [] }

@@ -4,13 +4,10 @@
 README.txt
 IPA
 RT-PCR
-exon-intron-junction_normalization_factors.txt
 expression_data
-gene_normalization_factors.txt
-radiation.cor_dist.png
-radiation.eucl_dist.png
-radiation_trend_analysis.xlsx
-radiation_stats.xlsx
+stat_results
 results
 trend_data
+GEO
+scripts/not.working/
 scripts/find_trend.pl
