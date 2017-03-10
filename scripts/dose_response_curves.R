@@ -3,7 +3,7 @@
 ### Dose response curves###
 
 # radiation.data <- read.csv("~/Dropbox/workspace/radiation/results/venn_diagrams/common_genes_from_sense_trend_analysis_0.1.csv")
-radiation.data <- read.csv("~/Dropbox/workspace/radiation/results/venn_diagrams/common.genes.sense.0.1.PORTvalues.txt", sep="\t", header = TRUE)
+radiation.data <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/venn_diagrams/common.genes.sense.0.1.PORTvalues.txt", sep="\t", header = TRUE)
 
 radiation.data %>%
   # gather(Sample_id,Expression,Gamma0.S11:Proton200.S10) %>%
@@ -24,8 +24,8 @@ radiation.data %>%
 
 # ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.drc.tiff", height = 50, width = 35, units ="cm")
 # ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.drc.eps", height = 50, width = 35, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc.tiff", height = 60, width = 45, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc.eps", height = 50, width = 35, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc.tiff", height = 60, width = 45, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc.eps", height = 50, width = 35, units ="cm")
 
 
 
@@ -43,13 +43,14 @@ library(gridExtra)
 library(cowplot)
 
 # radiation.data <- read.csv("~/Dropbox/workspace/radiation/results/venn_diagrams/common_genes_from_sense_trend_analysis_0.1.csv")
-radiation.data <- read.csv("~/Dropbox/workspace/radiation/results/venn_diagrams/common.genes.sense.0.1.PORTvalues.txt", sep="\t", header = TRUE)
+radiation.data <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/venn_diagrams/common.genes.sense.0.1.PORTvalues.txt", sep="\t", header = TRUE)
 
 # radiation.data$Location = factor(radiation.data$Location, levels=unique(c('Cytoplasm','Nucleus','Plasma membrane','Other')))
 
 # radiation.data.ordered = radiation.data[with(radiation.data, order(Location, factor(ID, sort(order(Location)[ID])))), ]
 # id_ordered = radiation.data.ordered$ID
-radiation.data.ordered = radiation.data[with(radiation.data, order(Location, factor(id, sort(order(Location)[id])))), ]
+loci_order = c("Cytoplasm", "Nucleus", "Plasma Membrane", "Other")
+radiation.data.ordered = radiation.data[with(radiation.data, order(factor(Location, levels=unique(loci_order)), factor(id, sort(order(Location)[id])))), ]
 id_ordered = radiation.data.ordered$id
 
 rd = radiation.data.ordered %>%
@@ -59,6 +60,7 @@ rd = radiation.data.ordered %>%
          Dose = as.numeric(Dose),
          Radiation_type=gsub("^(Proton|Gamma)([[:digit:]]+)\\.S[[:digit:]]+","\\1",Sample_id), 
          # ID = factor(ID, levels=unique(id_ordered)))
+         Location= factor(Location, levels=unique(loci_order)),
          id = factor(id, levels=unique(id_ordered)))
 
 p1 = ggplot(data = rd, aes(x=Dose, y=Expression, color=Radiation_type)) + 
@@ -78,7 +80,7 @@ dummy = ggplot(data = rd, aes(x=Dose, y=Expression)) +
   # facet_wrap(~ID, ncol=4) +
   facet_wrap(~id, ncol=4) +
   geom_rect(aes(fill=Location), xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) + 
-  scale_fill_manual(values=c("#4DAF4A", "#984EA3", "#FF7F00", "#F781BF")) +
+  scale_fill_manual(values=c("#4DAF4A", "#984EA3", "#F781BF", "#FF7F00")) +
   theme_minimal() + 
   theme(strip.text.x = element_text(size = 25), legend.position = c(0.89,0.04), legend.title = element_text(size = 28),
         legend.text = element_text(size = 26), legend.key.height = unit(1,"cm"))
@@ -128,8 +130,8 @@ combined_plot = ggdraw() +
   draw_plot(new_plot, 0, 0, 1, 1) +
   draw_plot(facet.legend, 0.63, 0.05, .3, .3)
 
-ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc_colorgrouped.tiff", combined_plot, height = 60, width = 45, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc_colorgrouped_wLogDose.tiff", combined_plot, height = 60, width = 45, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc_colorgrouped.pdf", combined_plot, height = 60, width = 45, units ="cm")
+# ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc_colorgrouped_wLogDose.tiff", combined_plot, height = 60, width = 45, units ="cm")
 
 
 # tiff("~/Dropbox/workspace/radiation/results/dose_response_curves/19common.genes.sense.0.1.fromPORT.drc_colorgrouped_w_legend.tiff", width = 45, height = 60, units = "cm", res = 300)

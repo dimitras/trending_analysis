@@ -8,7 +8,7 @@ library(reshape2)
 # Group by Radiation and Dose
 
 # radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted_ratios.txt", header = TRUE)
-radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", sep="\t", header = TRUE)
+radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", sep="\t", header = TRUE)
 
 rd = radiation.data %>%
   gather(Sample_id,Ratio,Proton5.S2.baseline:Gamma200.S20.baseline) %>%
