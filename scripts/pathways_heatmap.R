@@ -39,7 +39,7 @@ ggsave("~/Dropbox/workspace/radiation/results/pathways/curated_pathways_fdr0.1_c
 library(scales)
 # ipadata <- read.csv("~/Dropbox/workspace/radiation/IPA/curated_pathways_fdr0.1.csv")
 # ipadata <- read.csv("~/Dropbox/workspace/radiation/IPA/curated300genes_at.least.1.larger.than.neglog.05.csv")
-ipadata <- read.csv("~/Dropbox/workspace/radiation/IPA/curated300genes_at.least.1.larger.than.neglog.01.csv")
+ipadata <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/IPA/curated300genes_at.least.1.larger.than.neglog.01.csv")
 
 # ipadata.for_hclust = ipadata %>% column_to_rownames("Pathway") %>% select(Gamma:Proton) %>% as.matrix
 # ipadata.hclust_results = hclust(as.dist((1 - cor(t(ipadata.for_hclust)))))
@@ -71,13 +71,42 @@ ipadata %>%
 # ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01.tiff", height = 35, width = 30, units ="cm")
 # ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01.eps", height = 35, width = 30, units ="cm")
 # ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01_distclust.tiff", height = 35, width = 30, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01_custom.ordered.tiff", height = 35, width = 30, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01_custom.ordered.eps", height = 35, width = 30, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01_custom.ordered.pdf", height = 35, width = 30, units ="cm")
+# ggsave("~/Dropbox/workspace/radiation/results/pathways/curated300genes_at.least.1.larger.than.neglog.01_custom.ordered.eps", height = 35, width = 30, units ="cm")
 
 # my_palette <- colorRampPalette(c("green", "yellow","red" ))(n = 299)    # n  number of colors to be generated
 # col_breaks = c(seq(0, 0.2, length=100),  # for red
 #                seq(0.2,0.8,length=100),  # for yellow
 #                seq(0.8,1,length=100))    # for green
+
+
+
+#Updated heatmap: 300 genes, pvalue<0.01
+library(scales)
+ipadata <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/IPA/top300common_unique_lt.01.csv")
+
+# ipadata.for_hclust = ipadata %>% column_to_rownames("Pathway") %>% select(Gamma:Proton) %>% as.matrix
+# ipadata.hclust_results = hclust(as.dist((1 - cor(t(ipadata.for_hclust)))))
+
+ipadata %>%
+  arrange(desc(Sorted)) %>%
+  mutate(Pathway=factor(Pathway,levels=as.character(Pathway))) %>% 
+  gather(Radiation,logPvalue,Both:Gamma) %>%
+  mutate(Radiation=factor(Radiation,levels=c("Both" ,"Gamma", "Proton"))) %>%
+  # Pathway = factor(Pathway, levels=ipadata.hclust_results$labels[ipadata.hclust_results$order])) %>%
+  mutate(logPvalue=replace(logPvalue, logPvalue<2, NA)) %>%
+  
+  ggplot(aes(x = Radiation, y = Pathway, fill=logPvalue)) +
+  geom_tile() +
+  scale_fill_gradientn(name = "-logPvalue", colours = c("darkolivegreen" ,"darkolivegreen4", "darkolivegreen3", "darkolivegreen1"), values = rescale(c(8,6,4,2)), labels = c("2", "4", "6","8"), breaks = c(2.05,4,6,8), na.value = "grey80") +
+  theme(axis.title.x = element_blank(),axis.title.y = element_blank(),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 15),
+        legend.title = element_text(size = 18),
+        legend.text = element_text(size = 15),
+        panel.grid = element_blank())
+
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/top300common_unique_lt.01.pdf", height = 35, width = 30, units ="cm")
 
 
 
