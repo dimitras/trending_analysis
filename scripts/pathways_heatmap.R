@@ -85,28 +85,33 @@ ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/curated
 library(scales)
 ipadata <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/IPA/top300common_unique_lt.01.csv")
 
-# ipadata.for_hclust = ipadata %>% column_to_rownames("Pathway") %>% select(Gamma:Proton) %>% as.matrix
-# ipadata.hclust_results = hclust(as.dist((1 - cor(t(ipadata.for_hclust)))))
+group_order = c("apoptosis p53 dependent", "p53 independent", "DNA damage.cellular stress", "inflammation", "other")
+ipadata.ordered = ipadata[with(ipadata, order(factor(Group, levels=unique(group_order)))), ]
+myPalette = c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3")
+names(myPalette) = levels(ipadata.ordered$Group)
 
-ipadata %>%
+ipd = ipadata.ordered %>%
   arrange(desc(Sorted)) %>%
   mutate(Pathway=factor(Pathway,levels=as.character(Pathway))) %>% 
-  gather(Radiation,logPvalue,Both:Gamma) %>%
-  mutate(Radiation=factor(Radiation,levels=c("Both" ,"Gamma", "Proton"))) %>%
-  # Pathway = factor(Pathway, levels=ipadata.hclust_results$labels[ipadata.hclust_results$order])) %>%
+  gather(Radiation,logPvalue,Proton:Gamma) %>%
+  mutate(Radiation=factor(Radiation,levels=c("Gamma", "Proton"))) %>%
   mutate(logPvalue=replace(logPvalue, logPvalue<2, NA)) %>%
-  
+  mutate(Group=factor(Group,levels=unique(group_order))) 
+ 
+ipd %>%   
   ggplot(aes(x = Radiation, y = Pathway, fill=logPvalue)) +
   geom_tile() +
   scale_fill_gradientn(name = "-logPvalue", colours = c("darkolivegreen" ,"darkolivegreen4", "darkolivegreen3", "darkolivegreen1"), values = rescale(c(8,6,4,2)), labels = c("2", "4", "6","8"), breaks = c(2.05,4,6,8), na.value = "grey80") +
-  theme(axis.title.x = element_blank(),axis.title.y = element_blank(),
+  scale_color_manual(name='Pathway groups', values=c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3"), labels=group_order) +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
         axis.text.x = element_text(size = 18),
-        axis.text.y = element_text(size = 15),
+        axis.text.y = element_text(size = 15, colour=myPalette[ipd$Group]),
         legend.title = element_text(size = 18),
         legend.text = element_text(size = 15),
-        panel.grid = element_blank())
-
-ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/top300common_unique_lt.01.pdf", height = 35, width = 30, units ="cm")
+        panel.grid = element_blank()) 
+  
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/top300common_unique_lt.01_grouped.pdf", height = 35, width = 30, units ="cm")
 
 
 
