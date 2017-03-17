@@ -90,6 +90,9 @@ ipadata.ordered = ipadata[with(ipadata, order(factor(Group, levels=unique(group_
 myPalette = c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3")
 names(myPalette) = levels(ipadata.ordered$Group)
 
+cols = c("apoptosis p53 dependent" = "indianred1", "p53 independent" = "orchid3", "DNA damage.cellular stress" = "red3", "inflammation" = "salmon1", "other" = "steelblue3")
+shapes = c("apoptosis p53 dependent" = 15, "p53 independent" = 15, "DNA damage.cellular stress" = 15, "inflammation" = 15, "other" = 15)
+
 ipd = ipadata.ordered %>%
   arrange(desc(Sorted)) %>%
   mutate(Pathway=factor(Pathway,levels=as.character(Pathway))) %>% 
@@ -97,19 +100,22 @@ ipd = ipadata.ordered %>%
   mutate(Radiation=factor(Radiation,levels=c("Gamma", "Proton"))) %>%
   mutate(logPvalue=replace(logPvalue, logPvalue<2, NA)) %>%
   mutate(Group=factor(Group,levels=unique(group_order))) 
- 
+
 ipd %>%   
-  ggplot(aes(x = Radiation, y = Pathway, fill=logPvalue)) +
+  ggplot(aes(x = Radiation, y = Pathway, fill=logPvalue, colour=myPalette[ipd$Group])) +
   geom_tile() +
   scale_fill_gradientn(name = "-logPvalue", colours = c("darkolivegreen" ,"darkolivegreen4", "darkolivegreen3", "darkolivegreen1"), values = rescale(c(8,6,4,2)), labels = c("2", "4", "6","8"), breaks = c(2.05,4,6,8), na.value = "grey80") +
-  scale_color_manual(name='Pathway groups', values=c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3"), labels=group_order) +
+  scale_colour_manual(name='Groups', values=c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3"), labels=group_order) +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(size = 18),
-        axis.text.y = element_text(size = 15, colour=myPalette[ipd$Group]),
+        axis.text.y = element_text(size = 16, colour=myPalette[ipd$Group]),
         legend.title = element_text(size = 18),
-        legend.text = element_text(size = 15),
-        panel.grid = element_blank()) 
+        legend.text = element_text(size = 16),
+        legend.key.height = unit(1.5,"line"),
+        legend.key.width = unit(1.5,"line"),
+        panel.grid = element_blank()) +
+  guides(colour = guide_legend(override.aes = list(fill=c("indianred1" ,"orchid3", "red3", "salmon1", "steelblue3"))))
   
 ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/pathways/top300common_unique_lt.01_grouped.pdf", height = 35, width = 30, units ="cm")
 
