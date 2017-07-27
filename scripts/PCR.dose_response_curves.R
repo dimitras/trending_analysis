@@ -8,7 +8,7 @@ library(grid)
 library(gridExtra)
 library(cowplot)
 
-radiation.data <- read.csv("~/Dropbox/workspace/radiation/results/dose_response_curves/RT-PCR_gene_expressions_edited_w.genesymbols.txt", sep="\t", header = TRUE)
+radiation.data <- read.csv("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/RT-PCR_gene_expressions_edited_w.genesymbols.txt", sep="\t", header = TRUE)
 
 radiation.data$Tissue = factor(radiation.data$Tissue, levels=unique(c('Aorta','Kidney','Liver','Lung','Heart')))
 
@@ -77,4 +77,4 @@ combined_plot = ggdraw() +
   draw_plot(new_plot, 0, 0, 1, 1) +
   draw_plot(facet.legend, 0.6, 0.04, .3, .3)
 
-ggsave("~/Dropbox/workspace/radiation/results/dose_response_curves/RT-PCR_gene_expressions.drc_colorgrouped.tiff", combined_plot, height = 60, width = 45, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/dose_response_curves/approved/RT-PCR_gene_expressions.drc_colorgrouped.pdf", combined_plot, height = 60, width = 45, units ="cm")

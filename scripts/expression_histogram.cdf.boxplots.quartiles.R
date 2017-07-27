@@ -8,7 +8,7 @@ library(tidyr)
 library(tibble)
 library(broom)
 
-radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted_ratios.txt", header = TRUE)
+radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted_ratios.txt", header = TRUE)
 # radiation.data <- read.table("~/Dropbox/workspace/radiation/results/dose_response_curves/FINAL_master_list_of_gene_counts_MIN.antisense.radiation_renamed.sorted_ratios_updated.txt", header = TRUE)
 
 rd = radiation.data %>%
@@ -29,12 +29,13 @@ rd %>%
     scale_x_log10(breaks = c(0.2, 1, 7)) +
     coord_cartesian(xlim=c(0.2, 7)) +
     facet_wrap(~Dose, ncol = 3) +
-    theme_bw(base_size = 40) + 
-    theme(legend.position = c(0.93,0.95), legend.title = element_text(size = 32),
-          legend.text = element_text(size = 30), legend.key.height = unit(1,"cm")) +
+    theme_bw(base_size = 60) + 
+    guides(colour = guide_legend(override.aes = list(size = 10)))+
+    theme(legend.position = c(0.92,0.95), legend.title = element_text(size = 43), legend.spacing.y = unit(14, "cm"),
+        legend.text = element_text(size = 48), legend.background=element_blank(), legend.key=element_rect(fill=NA), legend.key.size = unit(1, "cm"), legend.key.height = unit(2,"cm")) +
     labs(y="Number of genes", x="Log Expression ratio (irradiated/control)")
 
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_expression_ratios_comparison_1000bins_wlog_3x3.tiff", height = 80, width = 80, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/approved?/all_sense_expression_ratios_comparison_1000bins_wlog_3x3.pdf", height = 80, width = 80, units ="cm")
 # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_expression_ratios_comparison_1000bins_wlog_3x3.eps", height = 80, width = 80, units ="cm")
 # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/antisense_radiation_ratios_comparison_1000bins_wlog.tiff", height = 15, width = 100, units ="cm")
 
@@ -78,7 +79,7 @@ ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_s
 ####################################################################################
 # expression ratios histograms for genes with FDR<0.1
 
-radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", sep="\t", header = TRUE)
+radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", sep="\t", header = TRUE)
 radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_ratios.txt", sep="\t", header = TRUE)
 
 radiation.data %>%
@@ -115,16 +116,17 @@ radiation.data %>%
   geom_step(stat="ecdf", size=3) +
   # scale_x_log10() +
   facet_wrap(~Dose, ncol=3) + 
-  theme_bw(base_size = 40) + 
-  theme(legend.position = c(0.93,0.05), legend.title = element_text(size = 32),
-        legend.text = element_text(size = 30), legend.key.height = unit(1,"cm")) +
+  theme_bw(base_size = 60) + 
+  guides(colour = guide_legend(override.aes = list(size = 10)))+
+  theme(legend.position = c(0.9,0.05), legend.title = element_text(size = 50), legend.spacing.y = unit(14, "cm"),
+        legend.text = element_text(size = 50), legend.background=element_blank(), legend.key=element_rect(fill=NA), legend.key.size = unit(1, "cm"), legend.key.height = unit(2,"cm")) +
   labs(y="Empirical cumulative density function F(Expression ratio)", x="Expression ratio (irradiated/control)")
 
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_cdf_expression_ratios_comparison_wlog_3x3.tiff", height = 80, width = 80, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_cdf_expression_ratios_comparison_wlog_3x3.eps", height = 80, width = 80, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/approved?/all_sense_0.1_cdf_expression_ratios_comparison_wlog_3x3.pdf", height = 80, width = 80, units ="cm")
+# ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_cdf_expression_ratios_comparison_wlog_3x3.eps", height = 80, width = 80, units ="cm")
 
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_cdf_expression_ratios_comparison_wlog_3x3.tiff", height = 80, width = 80, units ="cm")
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_cdf_expression_ratios_comparison_wlog_3x3.eps", height = 80, width = 80, units ="cm")
+# ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_cdf_expression_ratios_comparison_wlog_3x3.tiff", height = 80, width = 80, units ="cm")
+# ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_PCR_0.1_cdf_expression_ratios_comparison_wlog_3x3.eps", height = 80, width = 80, units ="cm")
 
 
 
@@ -133,8 +135,8 @@ ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_P
 ############################################################################################
 # Dose - Quartile expression ratio (treated/control) for ALL data AND genes with FDR<0.1
 
-# radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted_ratios.txt", header = TRUE)
-radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", header = TRUE)
+# radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/FINAL_master_list_of_gene_counts_MIN.sense.radiation_renamed.sorted_ratios.txt", header = TRUE)
+radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/all_sense_0.1_ratios.txt", header = TRUE)
 # FOR TESTING
 # radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/test_ratios.txt", sep="\t", header = TRUE)
 
@@ -142,37 +144,38 @@ radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_r
 # colMeans(subset(radiation.data,select = c(2:4)), na.rm = TRUE)
 
 # wt = c(
-#   wilcox.test(radiation.data$Proton5.S2.Proton0.S1,radiation.data$Gamma5.S12.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton10.S3.Proton0.S1,radiation.data$Gamma10.S13.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton25.S4.Proton0.S1,radiation.data$Gamma25.S14.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton50.S5.Proton0.S1,radiation.data$Gamma50.S15.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton75.S6.Proton0.S1,radiation.data$Gamma75.S16.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton100.S7.Proton0.S1,radiation.data$Gamma100.S17.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton125.S8.Proton0.S1,radiation.data$Gamma125.S18.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton150.S9.Proton0.S1,radiation.data$Gamma150.S19.Gamma0.S11, paired = TRUE)$p.value,
-#   wilcox.test(radiation.data$Proton200.S10.Proton0.S1,radiation.data$Gamma200.S20.Gamma0.S11, paired = TRUE)$p.value
+#   wilcox.test(radiation.data$Proton5.S2.Proton0.S1,radiation.data$Gamma5.S12.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton10.S3.Proton0.S1,radiation.data$Gamma10.S13.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton25.S4.Proton0.S1,radiation.data$Gamma25.S14.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton50.S5.Proton0.S1,radiation.data$Gamma50.S15.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton75.S6.Proton0.S1,radiation.data$Gamma75.S16.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton100.S7.Proton0.S1,radiation.data$Gamma100.S17.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton125.S8.Proton0.S1,radiation.data$Gamma125.S18.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton150.S9.Proton0.S1,radiation.data$Gamma150.S19.Gamma0.S11)$p.value,
+#   wilcox.test(radiation.data$Proton200.S10.Proton0.S1,radiation.data$Gamma200.S20.Gamma0.S11)$p.value
 # )
+#7.862887e-02  5.793485e-06  7.495997e-48  1.538752e-29  5.490702e-28 5.975821e-136  2.123698e-07  2.522544e-38  1.443209e-27
 
 wt = c(
-  wilcox.test(radiation.data$Proton5.S2.baseline,radiation.data$Gamma5.S12.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton10.S3.baseline,radiation.data$Gamma10.S13.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton25.S4.baseline,radiation.data$Gamma25.S14.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton50.S5.baseline,radiation.data$Gamma50.S15.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton75.S6.baseline,radiation.data$Gamma75.S16.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton100.S7.baseline,radiation.data$Gamma100.S17.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton125.S8.baseline,radiation.data$Gamma125.S18.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton150.S9.baseline,radiation.data$Gamma150.S19.baseline, paired = TRUE)$p.value,
-wilcox.test(radiation.data$Proton200.S10.baseline,radiation.data$Gamma200.S20.baseline, paired = TRUE)$p.value
+wilcox.test(radiation.data$Proton5.S2.baseline,radiation.data$Gamma5.S12.baseline)$p.value,
+wilcox.test(radiation.data$Proton10.S3.baseline,radiation.data$Gamma10.S13.baseline)$p.value,
+wilcox.test(radiation.data$Proton25.S4.baseline,radiation.data$Gamma25.S14.baseline)$p.value,
+wilcox.test(radiation.data$Proton50.S5.baseline,radiation.data$Gamma50.S15.baseline)$p.value,
+wilcox.test(radiation.data$Proton75.S6.baseline,radiation.data$Gamma75.S16.baseline)$p.value,
+wilcox.test(radiation.data$Proton100.S7.baseline,radiation.data$Gamma100.S17.baseline)$p.value,
+wilcox.test(radiation.data$Proton125.S8.baseline,radiation.data$Gamma125.S18.baseline)$p.value,
+wilcox.test(radiation.data$Proton150.S9.baseline,radiation.data$Gamma150.S19.baseline)$p.value,
+wilcox.test(radiation.data$Proton200.S10.baseline,radiation.data$Gamma200.S20.baseline)$p.value
 )
-# 0.009861456 0.285990841 0.248297264 0.354571966 0.687073476 0.005329132 0.951851705 0.025490092 0.600797301
+# 2.280435e-03 1.263370e-01 6.391689e-06 2.916258e-05 3.231177e-03 8.465336e-04 6.494024e-05 6.130252e-04 1.297570e-04
 
 pvals=c()
 for (pvalue in wt){
   if (pvalue < 0.05) {
-    pvals <- c(pvals, "non-identical")
+    pvals <- c(pvals, "*")
   }
   else if (pvalue >= 0.05) {
-    pvals <- c(pvals, "identical")
+    pvals <- c(pvals, "")
   }
 }
 
@@ -187,9 +190,11 @@ radiation.data %>%
   # do(tidy(wilcox.test(Ratio ~ Radiation_type+Dose+ID, paired=TRUE))) %>%
   
   ggplot(aes(x=Dose, y=Ratio, color=Radiation_type)) +
-  theme_bw(base_size = 40) + 
-  theme(legend.position = c(0.93,0.95), legend.title = element_text(size = 32), legend.key.size = unit(0.4, "cm"),
-        legend.text = element_text(size = 30), legend.key.height = unit(1.5,"cm"), legend.background=element_blank()) +
+  theme_bw(base_size = 60) + 
+  theme(legend.position = c(0.9,0.04), legend.title = element_text(size = 50), legend.key.size = unit(1, "cm"), legend.spacing.y = unit(15, "cm"), legend.spacing.x = unit(10, "cm"),
+        legend.text = element_text(size = 50), legend.key.height = unit(2,"cm"), legend.background=element_blank()) +
+  # theme(legend.position = c(0.93,0.04), legend.title = element_text(size = 32), legend.key.size = unit(0.4, "cm"),
+  #       legend.text = element_text(size = 30), legend.key.height = unit(1.5,"cm"), legend.background=element_blank()) +
   #separate graphs
   # labs(y="Median of expression radiated/control") + 
   # stat_summary(fun.y = median, geom = "line", position = "identity")
@@ -208,35 +213,37 @@ radiation.data %>%
   # df1 <- data.frame(a = c(1, 1:3,3), b = c(39, 40, 40, 40, 39)) +
   # geom_line(data = df1, aes(x = a, y = b)) + annotate("text", x = 2, y = 42, label = "*", size = 8)
   
-  # annotate("text",x=5,y=1.12,label= pvals[1], size=12, angle=90) +
-  # annotate("text",x=10,y=1.09,label= pvals[2], size=12, angle=90) +
-  # annotate("text",x=25,y=1.12,label= pvals[3], size=12, angle=90) +
-  # annotate("text",x=50,y=1.1,label= pvals[4], size=12, angle=90) +
-  # annotate("text",x=73,y=1.18,label= pvals[5], size=12, angle=90) +
-  # annotate("text",x=100,y=1.14,label= pvals[6], size=12, angle=90) +
-  # annotate("text",x=125,y=1.12,label= pvals[7], size=12, angle=90) +
-  # annotate("text",x=150,y=1.14,label= pvals[8], size=12, angle=90) +
-  # annotate("text",x=200,y=1.12,label= pvals[9], size=12, angle=90)
+  # annotate("text",x=6,y=1.12,label= pvals[1], size=12, angle=90) +
+  # annotate("text",x=11,y=1.09,label= pvals[2], size=12, angle=90) +
+  # annotate("text",x=26,y=1.12,label= pvals[3], size=12, angle=90) +
+  # annotate("text",x=51,y=1.1,label= pvals[4], size=12, angle=90) +
+  # annotate("text",x=76,y=1.18,label= pvals[5], size=12, angle=90) +
+  # annotate("text",x=101,y=1.14,label= pvals[6], size=12, angle=90) +
+  # annotate("text",x=126,y=1.12,label= pvals[7], size=12, angle=90) +
+  # annotate("text",x=151,y=1.14,label= pvals[8], size=12, angle=90) +
+  # annotate("text",x=201,y=1.12,label= pvals[9], size=12, angle=90)
   
-  annotate("text",x=5,y=1.025,label= pvals[1], size=12, angle=90) +
-  annotate("text",x=10,y=1.025,label= pvals[2], size=12, angle=90) +
-  annotate("text",x=25,y=1.045,label= pvals[3], size=12, angle=90) +
-  annotate("text",x=50,y=1.06,label= pvals[4], size=12, angle=90) +
-  annotate("text",x=75,y=1.085,label= pvals[5], size=12, angle=90) +
-  annotate("text",x=100,y=1.075,label= pvals[6], size=12, angle=90) +
-  annotate("text",x=125,y=1.11,label= pvals[7], size=12, angle=90) +
-  annotate("text",x=150,y=1.13,label= pvals[8], size=12, angle=90) +
-  annotate("text",x=198,y=1.14,label= pvals[9], size=12, angle=90)
+  annotate("text",x=6,y=1.025,label= pvals[1], size=12, angle=90) +
+  annotate("text",x=11,y=1.025,label= pvals[2], size=12, angle=90) +
+  annotate("text",x=26,y=1.045,label= pvals[3], size=12, angle=90) +
+  annotate("text",x=51,y=1.06,label= pvals[4], size=12, angle=90) +
+  annotate("text",x=76,y=1.085,label= pvals[5], size=12, angle=90) +
+  annotate("text",x=101,y=1.075,label= pvals[6], size=12, angle=90) +
+  annotate("text",x=126,y=1.11,label= pvals[7], size=12, angle=90) +
+  annotate("text",x=151,y=1.13,label= pvals[8], size=12, angle=90) +
+  annotate("text",x=201,y=1.16,label= pvals[9], size=12, angle=90)
   
   # guides(color=guide_legend(overrride.aes=list(size=1, linetype=1)))
 
   # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/Q1_expression_ratios.tiff", height = 80, width = 80, units ="cm")
   # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/Q3_expression_ratios.tiff", height = 80, width = 80, units ="cm")
   # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/Median_expression_ratios.tiff", height = 80, width = 80, units ="cm")
-  
+
+    ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/approved?/summary_stats_all_expression_ratios.wilcox.pdf", height = 80, width = 80, units ="cm")
   # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/summary_stats_all_expression_ratios.tiff", height = 80, width = 80, units ="cm")
-  ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/summary_stats_expression_ratios_0.1.tiff", height = 80, width = 80, units ="cm")
-  ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/summary_stats_expression_ratios_0.1.jpg", height = 80, width = 80, units ="cm")
+  # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/summary_stats_expression_ratios_0.1.tiff", height = 80, width = 80, units ="cm")
+  # ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/summary_stats_expression_ratios_0.1.jpg", height = 80, width = 80, units ="cm")
+  ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/approved?/summary_stats_expression_ratios_0.1.wilcox.pdf", height = 80, width = 80, units ="cm")
   
 
 
@@ -300,7 +307,30 @@ ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/commo
 
 
 #RNA-Seq experiment only - shaded summary_stat
-radiation.data <- read.table("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/common_genes_across_experiments_0.1.txt", sep="\t", header = TRUE)
+radiation.data <- read.table("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/common_genes_across_experiments_0.1.txt", sep="\t", header = TRUE)
+
+wt = c(
+wilcox.test(radiation.data$RNA.Gamma0.S11,radiation.data$RNA.Proton0.S1)$p.value,
+wilcox.test(radiation.data$RNA.Gamma5.S12,radiation.data$RNA.Proton5.S2)$p.value,
+wilcox.test(radiation.data$RNA.Gamma10.S13,radiation.data$RNA.Proton10.S3)$p.value,
+wilcox.test(radiation.data$RNA.Gamma25.S14,radiation.data$RNA.Proton25.S4)$p.value,
+wilcox.test(radiation.data$RNA.Gamma50.S15,radiation.data$RNA.Proton50.S5)$p.value,
+wilcox.test(radiation.data$RNA.Gamma75.S16,radiation.data$RNA.Proton75.S6)$p.value,
+wilcox.test(radiation.data$RNA.Gamma100.S17,radiation.data$RNA.Proton100.S7)$p.value,
+wilcox.test(radiation.data$RNA.Gamma125.S18,radiation.data$RNA.Proton125.S8)$p.value,
+wilcox.test(radiation.data$RNA.Gamma150.S19,radiation.data$RNA.Proton150.S9)$p.value,
+wilcox.test(radiation.data$RNA.Gamma200.S20,radiation.data$RNA.Proton200.S10)$p.value
+)
+
+pvals=c()
+for (pvalue in wt){
+  if (pvalue < 0.05) {
+    pvals <- c(pvals, "*")
+  }
+  else if (pvalue >= 0.05) {
+    pvals <- c(pvals, "")
+  }
+}
 
 radiation.data %>%
   gather(Sample_id,Expression,RNA.Gamma0.S11:RNA.Proton200.S10) %>%
@@ -313,12 +343,23 @@ radiation.data %>%
                fun.ymax = function(z) { quantile(z,0.75) },
                fun.y = median, size=2, geom = "smooth", aes(fill=Radiation_type), alpha=0.3) +
   scale_x_discrete(limits=0:200, labels=c("0","5","10","25","50","75","100","125","150","175","200"), breaks=c(0,5,10,25,50,75,100,125,150,175,200)) +
-  theme_bw(base_size = 40) + 
-  theme(legend.position = c(0.93,0.1), legend.title = element_text(size = 32), legend.key.size = unit(0.4, "cm"),
-        legend.text = element_text(size = 30), legend.key.height = unit(1.5,"cm"), legend.background=element_blank()) +
-  labs(y="Normalized gene expression", x="Dose (cGy)")
+  theme_bw(base_size = 60) + 
+  guides(colour = guide_legend(override.aes = list(size = 10)))+
+  theme(legend.position = c(0.85,0.1), legend.title = element_text(size = 50), legend.spacing.y = unit(5, "cm"),
+        legend.text = element_text(size = 50), legend.background=element_blank(), legend.key=element_rect(fill=NA), legend.key.size = unit(2, "cm"), legend.key.height = unit(2,"cm")) +
+  labs(y="Normalized gene expression", x="Dose (cGy)") +
+  annotate("text",x=100,y=1.45,label= pvals[7], size=40)
 
-ggsave("~/Dropbox/workspace/radiation/results/expression_ratios_histograms/common_genes_expression_trend_0.1_shaded.tiff", height = 60, width = 60, units ="cm")
+ggsave("~/Documents/dimitra/Workspace/RNA-Seq/radiation/results/expression_ratios_histograms/approved?/common_genes_expression_trend_0.1_shaded_w.wilcox.pdf", height = 60, width = 60, units ="cm")
+
+
+
+
+
+
+
+
+
 
 
 

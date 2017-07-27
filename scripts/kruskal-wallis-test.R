@@ -19,9 +19,15 @@ rd = radiation.data %>%
          Group = factor(Group, levels=unique(Group)))
 
 #Kruskal Wallis test
-kt_all = kruskal.test(Ratio~Group,data=rd)$p.value
+kruskal.test(Ratio~Dose,data=rd)$p.value
+kruskal.test(Ratio~Group,data=rd)$p.value
 
 #Dunn test
+#test it with the other library first
+library(dunn.test)
+dunnTest(Ratio ~ Group, data=rd,kw=TRUE)
+
+
 dt = posthoc.kruskal.dunn.test(x=rd$Ratio, g=rd$Group, p.adjust.method="bonferroni")
 dt_long <- melt(dt$p.value, measure.vars=c("5","10","25","50","75","100","125","150","200"))
 colnames(dt_long) <- c("DoseY", "DoseX", "Pvalue")
@@ -97,17 +103,17 @@ rd = radiation.data %>%
 # )
 # [1] 1.107851e-189 7.519225e-136  8.741057e-25  1.132323e-32  2.621398e-45  7.894216e-83  2.182544e-25  0.000000e+00 5.328510e-317
 
-# kt = c(
-#   kruskal.test(radiation.data$Proton5.S2.baseline,radiation.data$Gamma5.S12.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton10.S3.baseline,radiation.data$Gamma10.S13.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton25.S4.baseline,radiation.data$Gamma25.S14.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton50.S5.baseline,radiation.data$Gamma50.S15.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton75.S6.baseline,radiation.data$Gamma75.S16.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton100.S7.baseline,radiation.data$Gamma100.S17.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton125.S8.baseline,radiation.data$Gamma125.S18.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton150.S9.baseline,radiation.data$Gamma150.S19.baseline)$p.value,
-#   kruskal.test(radiation.data$Proton200.S10.baseline,radiation.data$Gamma200.S20.baseline)$p.value
-# )
+kt = c(
+  kruskal.test(radiation.data$Proton5.S2.baseline,radiation.data$Gamma5.S12.baseline)$p.value,
+  kruskal.test(radiation.data$Proton10.S3.baseline,radiation.data$Gamma10.S13.baseline)$p.value,
+  kruskal.test(radiation.data$Proton25.S4.baseline,radiation.data$Gamma25.S14.baseline)$p.value,
+  kruskal.test(radiation.data$Proton50.S5.baseline,radiation.data$Gamma50.S15.baseline)$p.value,
+  kruskal.test(radiation.data$Proton75.S6.baseline,radiation.data$Gamma75.S16.baseline)$p.value,
+  kruskal.test(radiation.data$Proton100.S7.baseline,radiation.data$Gamma100.S17.baseline)$p.value,
+  kruskal.test(radiation.data$Proton125.S8.baseline,radiation.data$Gamma125.S18.baseline)$p.value,
+  kruskal.test(radiation.data$Proton150.S9.baseline,radiation.data$Gamma150.S19.baseline)$p.value,
+  kruskal.test(radiation.data$Proton200.S10.baseline,radiation.data$Gamma200.S20.baseline)$p.value
+)
 # [1] 0.5305351 0.4793370 0.3430635 0.4255500 0.4556526 0.3507277 0.3592291 0.3951031 0.4556526
 
 kt_all = kruskal.test(Ratio~Dose,data=rd)$p.value
